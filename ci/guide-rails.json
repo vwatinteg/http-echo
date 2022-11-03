@@ -48,7 +48,7 @@
 				},
 				"tasks": [
 					{
-						"name": "vw-http-echo-k8s",
+						"name": "http-echo-k8s",
 						"steps": [
 							{
 								"name": "Build",

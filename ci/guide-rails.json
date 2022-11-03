@@ -15,22 +15,22 @@
 				"name": "Build",
 				"segment_type": "build",
 				"publish_attributes": {
-					"publish": true,
-					"docker_attributes": {
-						"repository": "((application.name))",
-						"tags": [
-							"((application.version))"
-						],
-						"context": "",
-						"docker_file_path": "docker/scratch/Dockerfile"
-					}
+					"docker_images": [
+						{
+							"repository": "((application.name))",
+							"dockerFilePath": "docker/scratch/Dockerfile",
+							"tags": [
+								"((application.version))"
+							]
+						}
+					]
 				},
 				"exit_actions": {},
 				"properties": [
 					{
 						"name": "gopath",
-						"description": "GOPATH is set to ${SEGMENT_BASE_DIR}/cache/go by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created",
-						"value": "${SEGMENT_BASE_DIR}/cache/go"
+						"value": "${SEGMENT_BASE_DIR}/cache/go",
+						"description": "GOPATH is set to ${SEGMENT_BASE_DIR}/cache/go by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created"
 					}
 				],
 				"deployment_strategy": {},

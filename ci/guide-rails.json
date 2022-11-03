@@ -1,0 +1,288 @@
+{
+	"metadata": {
+		"version": 2
+	},
+	"application": {
+		"name": "http-echo",
+		"language": "GOLANG",
+		"artifact_store": {
+			"repositories": null
+		}
+	},
+	"pipeline": {
+		"segments": [
+			{
+				"name": "Build",
+				"segment_type": "build",
+				"publish_attributes": {
+					"publish": true,
+					"docker_attributes": {
+						"repository": "((application.name))",
+						"tags": [
+							"((application.version))"
+						],
+						"context": "",
+						"docker_file_path": "docker/scratch/Dockerfile"
+					}
+				},
+				"exit_actions": {},
+				"properties": [
+					{
+						"name": "gopath",
+						"description": "GOPATH is set to ${SEGMENT_BASE_DIR}/cache/go by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created",
+						"value": "${SEGMENT_BASE_DIR}/cache/go"
+					}
+				],
+				"deployment_strategy": {},
+				"application_init": {},
+				"instance_tags": [
+					{
+						"name": "application.name",
+						"value": "((application.name))"
+					}
+				],
+				"cache_info": {
+					"paths": [
+						"((gopath))"
+					]
+				},
+				"tasks": [
+					{
+						"name": "vw-http-echo-k8s",
+						"steps": [
+							{
+								"name": "Build",
+								"definition": "Build",
+								"command": "go build -o http-echo\n\nmkdir -p pkg/linux_amd64\nmv http-echo pkg/linux_amd64/.\n",
+								"properties": null
+							}
+						],
+						"docker_options": {}
+					}
+				]
+			}
+		],
+		"exit_actions": {},
+		"default_properties": [
+			{
+				"name": "AWS_ACCESS_KEY_ID",
+				"value": "secret:121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_ACCESS_KEY_ID",
+				"type": "string",
+				"secret": true,
+				"secret_path": "121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_ACCESS_KEY_ID"
+			},
+			{
+				"name": "AWS_SECRET_ACCESS_KEY",
+				"value": "secret:121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_SECRET_ACCESS_KEY",
+				"type": "string",
+				"secret": true,
+				"secret_path": "121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_SECRET_ACCESS_KEY"
+			}
+		],
+		"deployment_files": [],
+		"application_init": {
+			"command": "bin/start-service.sh"
+		}
+	},
+	"organization": {
+		"orgname": "GR-Product"
+	},
+	"infrastructure": {
+		"stemcells": [
+			{
+				"alias": "ubuntu-trusty",
+				"os": "ubuntu-trusty",
+				"version": "latest"
+			},
+			{
+				"alias": "ubuntu-xenial",
+				"os": "ubuntu-xenial",
+				"version": "latest"
+			},
+			{
+				"alias": "windows1803",
+				"os": "windows1803",
+				"version": "latest"
+			},
+			{
+				"alias": "windows2012R2",
+				"os": "windows2012R2",
+				"version": "latest"
+			},
+			{
+				"alias": "default",
+				"os": "ubuntu",
+				"version": "18.04.6"
+			},
+			{
+				"alias": "centos-7",
+				"os": "centos-7",
+				"version": "latest"
+			}
+		],
+		"resources": [
+			{
+				"name": "pipeline",
+				"image": {
+					"name": "docker-registry.query.consul:443/pipeline-image-cli-gx-7358-test",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "deployment",
+				"image": {
+					"name": "docker-registry.query.consul:443/pipeline-image-cli-gx-7358-test",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "eks-tools",
+				"image": {
+					"name": "docker-registry.service.consul:443/pipeline-image-eks-tools",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "idgenerator",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-id-generator",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "emitter",
+				"image": {
+					"name": "docker-registry.query.consul:443/guide-rails-emitter",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "git-resource",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-git-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "gerrit-resource",
+				"image": {
+					"name": "docker-registry.service.consul:443/gr-gerrit-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "build-breaker",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-build-breaker",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "s3",
+				"image": {
+					"name": "docker-registry.query.consul:443/concourse-s3-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "slack",
+				"image": {
+					"name": "docker-registry.query.consul:443/concourse-slack-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "email",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-email-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "sonar",
+				"image": {
+					"name": "docker-registry.query.consul:443/concourse-sonarqube-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "time",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-time-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "azure-blobstore",
+				"image": {
+					"name": "docker-registry.query.consul:443/concourse-azure-blobstore-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "gr-gcs-resource",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-gcs-resource",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "veracode-scanner",
+				"image": {
+					"name": "docker-registry.query.consul:443/veracode-scanner",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "netsparker-scanner",
+				"image": {
+					"name": "docker-registry.service.consul:443/netsparker-scanner",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "docker-resource",
+				"image": {
+					"name": "docker-registry.query.consul:443/gr-docker-image",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			},
+			{
+				"name": "build",
+				"image": {
+					"name": "docker-registry.query.consul:443/pipeline-image-go-tools",
+					"version": "latest",
+					"location": "docker-registry.service.consul:443"
+				}
+			}
+		],
+		"notification_configurations": [],
+		"vault": {},
+		"concourse": {
+			"address": "https://concourse-web.service.consul",
+			"team": "main"
+		},
+		"mq": {
+			"host": "rabbitmq.service.consul:5671"
+		},
+		"bosh": {}
+	}
+}

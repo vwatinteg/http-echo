@@ -15,22 +15,22 @@
 				"name": "Build",
 				"segment_type": "build",
 				"publish_attributes": {
-					"publish": true,
-					"docker_attributes": {
-						"repository": "((application.name))",
-						"tags": [
-							"((application.version))"
-						],
-						"context": "",
-						"docker_file_path": "docker/scratch/Dockerfile"
-					}
+					"docker_images": [
+						{
+							"repository": "((application.name))",
+							"dockerFilePath": "docker/scratch/Dockerfile",
+							"tags": [
+								"((application.version))"
+							]
+						}
+					]
 				},
 				"exit_actions": {},
 				"properties": [
 					{
 						"name": "gopath",
-						"description": "GOPATH is set to ${SEGMENT_BASE_DIR}/cache/go by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created",
-						"value": "${SEGMENT_BASE_DIR}/cache/go"
+						"value": "${SEGMENT_BASE_DIR}/cache/go",
+						"description": "GOPATH is set to ${SEGMENT_BASE_DIR}/cache/go by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created"
 					}
 				],
 				"deployment_strategy": {},
@@ -63,22 +63,7 @@
 			}
 		],
 		"exit_actions": {},
-		"default_properties": [
-			{
-				"name": "AWS_ACCESS_KEY_ID",
-				"value": "secret:121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_ACCESS_KEY_ID",
-				"type": "string",
-				"secret": true,
-				"secret_path": "121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_ACCESS_KEY_ID"
-			},
-			{
-				"name": "AWS_SECRET_ACCESS_KEY",
-				"value": "secret:121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_SECRET_ACCESS_KEY",
-				"type": "string",
-				"secret": true,
-				"secret_path": "121ad8f4-add6-4ec0-5eab-230d7b37503b/7a4a0043-8a17-43db-40a4-28feb5f9fe6a/555983fc-fe0b-496a-57bd-397e028bb64e/46d124fd-a325-43d6-6cba-961ef46f408e/AWS_SECRET_ACCESS_KEY"
-			}
-		],
+		"default_properties": [],
 		"deployment_files": [],
 		"application_init": {
 			"command": "bin/start-service.sh"

@@ -63,7 +63,13 @@
 			}
 		],
 		"exit_actions": {},
-		"default_properties": [],
+		"default_properties": [
+			{
+				"name": "go.module",
+				"value": "auto",
+				"type": "string"
+			}
+		],
 		"deployment_files": [],
 		"application_init": {
 			"command": "bin/start-service.sh"

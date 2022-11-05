@@ -10,7 +10,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/vwatinteg/http-echo2/version"
+	"github.com/calculi-corp/experimental/http-echo/version"
 )
 
 var (

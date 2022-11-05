@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vwatinteg/http-echo/version"
+	"github.com/calculi-corp/experimental/http-echo/version"
 )
 
 const (

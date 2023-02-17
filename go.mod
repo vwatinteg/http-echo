@@ -1,3 +1,3 @@
-module github.com/calculi-corp/experimental/http-echo
+module github.com/vwatinteg/http-echo
 
 go 1.18

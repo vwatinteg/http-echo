@@ -55,7 +55,7 @@
 							{
 								"name": "Build",
 								"definition": "Build",
-								"command": "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags \"-static\"' -o ((application.name))\n\n\nmkdir -p pkg/linux_amd64\nmv ((application.name)) pkg/linux_amd64/.",
+								"command": "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags \"-static\"' -o ((application.name))\n\n\n\nmkdir -p pkg/linux_amd64\nmv ((application.name)) pkg/linux_amd64/.",
 								"properties": null
 							}
 						],
